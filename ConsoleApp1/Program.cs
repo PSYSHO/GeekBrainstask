@@ -3,14 +3,15 @@ using System.Text;
 
 class Program
 {
-    public static int[,] numbers = new int[5, 5];
-    public static int[,] numbers1 = new int[3, 5];
-    public static int size = 4;
+    public static int summ;
     static void Main(string[] args)
     {
-        Task54();
-        Task56();
-        Task58();
+        Console.WriteLine("Задача 64: Задайте значения M и N.Напишите рекурсивный метод, который выведет все натуральные числа кратные 3 - ём в промежутке от M до N.");
+        Task64(1,20);
+        Console.WriteLine("Задача 66: Задайте значения M и N. Напишите рекурсивный метод, который найдёт сумму натуральных элементов в промежутке от M до N.");
+        Task66(1,15);
+        Console.WriteLine("Задача 68: Напишите программу вычисления функции Аккермана с помощью рекурсии. Даны два неотрицательных числа m и n.");
+        Task68(3,2);
 
        
 
@@ -18,100 +19,31 @@ class Program
 
 
     }
-    public static void Task54() {
-        Console.WriteLine("Задача 54: Задайте двумерный массив.Напишите программу, которая упорядочит по убыванию элементы каждой строки двумерного массива.");
-        FillArrayRandomNumbers(numbers);
-        Console.WriteLine();
-        Console.WriteLine("Массив до изменения");
-        PrintArray(numbers);
-        for (int i = 0; i < numbers.GetLength(0); i++)
-        {
-            for (int j = 0; j < numbers.GetLength(1) - 1; j++)
-            {
-                for (int z = 0; z < numbers.GetLength(1) - 1; z++)
-                {
-                    if (numbers[i, z] < numbers[i, z + 1])
-                    {
-                        int temp = 0;
-                        temp = numbers[i, z];
-                        numbers[i, z] = numbers[i, z + 1];
-                        numbers[i, z + 1] = temp;
-                    }
-                }
-            }
-        }
-        Console.WriteLine();
-        Console.WriteLine("Массив с упорядоченными значениями");
-        PrintArray(numbers);
+    public static void Task66(int n,int m) {
+        int start = n;
+        summ=summ+start;
+        if ((start + 1) <= m) Task66(start + 1, m); else Console.WriteLine(summ);
     }
-    public static void Task56()
+    public static void Task64(int n, int m)
     {
-        Console.WriteLine("Задача 56: Задайте прямоугольный двумерный массив. Напишите программу, которая будет находить строку с наименьшей суммой элементов.");
-        FillArrayRandomNumbers(numbers1);
-        PrintArray(numbers1);
-        int minsum = Int32.MaxValue;
-        int indexLine = 0;
-
-        for (int i = 0; i < numbers1.GetLength(0); i++)
-        {
-            int sum = 0;
-            for (int j = 0; j < numbers1.GetLength(1); j++)
-            {
-                sum = sum + numbers1[i, j];
-            }
-            if (sum < minsum)
-            {
-                minsum = sum;
-                indexLine++;
-            }
-        }
-
-        Console.WriteLine("Cтрока с наименьшей суммой елементов под номером: " + (indexLine) + ", с суммой елементов равной: " + (minsum)+"\n");
+        int start = n;
+        if (start % 3 == 0) Console.WriteLine(start);
+        if ((start + 1) <= m) Task64(start + 1, m);
     }
-    public static void Task58() {
-            
-            var result = new int[size, size];
-            for (int currentChar = 1, padding = 0; padding < size / 2; padding++)
-            {
-                for (int j = padding; j < size - padding; j++)
-                    result[padding, j] = currentChar;
-                for (int j = padding; j < size - padding; j++)
-                    result[size - padding - 1, j] = currentChar;
-                for (int i = padding + 2; i < size - padding - 1; i++)
-                    result[i, padding] = currentChar;
-                for (int i = padding + 1; i < size - padding - 1; i++)
-                    result[i, size - padding - 1] = currentChar;
-                currentChar = 1 - currentChar;
-                result[padding + 1, padding] = currentChar;
-            }
-            if (size % 2 != 0 && result[0, 0] == 1)
-                result[size / 2, size / 2] = 1;
-            PrintArray(result);
-   
-    }
-    public static void FillArrayRandomNumbers(int[,] array)
+    public static void Task68(int n, int m)
     {
-        for (int i = 0; i < array.GetLength(0); i++)
-        {
-            for (int j = 0; j < array.GetLength(1); j++)
-            {
-                array[i, j] = new Random().Next(0, 10);
-            }
-        }
+        int functionAkkerman = Ack(m, n);
+
+        Console.Write($"Функция Аккермана = {functionAkkerman} ");
+    }
+    public static int Ack(int m, int n)
+    {
+        if (m == 0) return n + 1;
+        else if (n == 0) return Ack(m - 1, 1);
+        else return Ack(m - 1, Ack(m, n - 1));
     }
 
-    public static void PrintArray(int[,] array)
-    {
-        for (int i = 0; i < array.GetLength(0); i++)
-        {
-            Console.Write("[ ");
-            for (int j = 0; j < array.GetLength(1); j++)
-            {
-                Console.Write(array[i, j] + " ");
-            }
-            Console.Write("]");
-            Console.WriteLine("");
-        }
-    }
+
+
 }
 
